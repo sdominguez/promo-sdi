@@ -16,6 +16,10 @@ app.get('*', (req, res) =>{
     res.sendFile(__dirname+'/site/404.html');
 });
 
-app.listen(port, () => {
-    console.log(`App listening on port ${port}`)
-});
+module.exports = app;
+
+if (require.main === module) {
+  app.listen(port, () => {
+    console.log(`App listening on port ${port}`);
+  });
+}
