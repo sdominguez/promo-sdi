@@ -1,6 +1,5 @@
-FROM node:19-alpine3.16
+FROM node:20-alpine
 
-#expose ports 8085 para nodejs
 EXPOSE 8085
 
 COPY . /app
