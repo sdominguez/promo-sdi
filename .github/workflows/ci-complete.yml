@@ -55,3 +55,18 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/promo-sdi:latest
+  deploy-ec2:
+    needs: build-docker
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy a EC2 vía SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd /home/ubuntu/promo-sdi
+            docker compose pull
+            docker compose up -d
