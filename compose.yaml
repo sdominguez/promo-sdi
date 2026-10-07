@@ -1,0 +1,7 @@
+services:
+  app:
+    image: sdominguez/promo-sdi:latest
+    container_name: promo-sdi
+    restart: unless-stopped
+    ports:
+      - "80:8085"
