@@ -62,13 +62,34 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy a EC2 vía SSH
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ubuntu
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            cd /home/ubuntu/promo-sdi
-            docker compose pull
-            docker compose up -d
+    - name: Checkout del código
+      uses: actions/checkout@v4
+
+    - name: Crear directorio en EC2
+      uses: appleboy/ssh-action@v1
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ubuntu
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: |
+          mkdir -p /home/ubuntu/promo-sdi
+
+    - name: Copiar compose.yaml a EC2
+      uses: appleboy/scp-action@v1
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ubuntu
+        key: ${{ secrets.EC2_SSH_KEY }}
+        source: "compose.yaml"
+        target: "/home/ubuntu/promo-sdi"
+
+    - name: Desplegar en EC2
+      uses: appleboy/ssh-action@v1
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ubuntu
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: |
+          cd /home/ubuntu/promo-sdi
+          docker compose pull
+          docker compose up -d
