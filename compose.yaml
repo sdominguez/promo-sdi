@@ -1,6 +1,6 @@
 services:
   app:
-    image: sdominguez/promo-sdi:latest
+    image: sdois/promo-sdi:latest
     container_name: promo-sdi
     restart: unless-stopped
     ports:
