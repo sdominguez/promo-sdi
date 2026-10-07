@@ -54,7 +54,9 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/promo-sdi:latest
+          tags: | 
+            ${{ secrets.DOCKERHUB_USERNAME }}/promo-sdi:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/promo-sdi:${{ github.sha }}
   deploy-ec2:
     needs: build-docker
     runs-on: ubuntu-latest
